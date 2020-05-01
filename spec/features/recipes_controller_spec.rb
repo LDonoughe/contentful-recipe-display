@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 require 'webmock'
-require 'pry'
 
 feature 'Recipe Selection' do
   before do
