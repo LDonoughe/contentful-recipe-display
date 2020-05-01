@@ -1,24 +1,37 @@
-# README
+# Contentful Recipe Display
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
+Display recipes from contentful
 
-Things you may want to cover:
+## Setup
+install asdf plugins for postgres, nodejs, ruby
 
-* Ruby version
+install yarn
 
-* System dependencies
+`asdf install`
 
-* Configuration
+```
+createdb `whoami`
+createdb contentful_recipe_display_development
+createdb contentful_recipe_display_test
+```
 
-* Database creation
+`bundle`
+`rails db:migrate`
 
-* Database initialization
+`touch .env.local`
+`touch .env.test.local`
+add `ACCESS_TOKEN=` then your key to `.env.local` and `.env.test.local`
 
-* How to run the test suite
+Do this again for `SPACE_ID=` and `ENV_ID=`.
 
-* Services (job queues, cache servers, search engines, etc.)
+In the future the .env steps should be refactored into an env template
 
-* Deployment instructions
+to run specs:
+`rails test`
 
-* ...
+to use server:
+`rails server`
+
+navigate browser to localhost:3000 to see the recipe index
+
