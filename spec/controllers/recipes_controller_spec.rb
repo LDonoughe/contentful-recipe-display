@@ -27,9 +27,9 @@ describe RecipesController do
     context 'contentful has an issue' do
       before do
         stub_request(:get, "https://cdn.contentful.com/spaces/#{ENV['SPACE_ID']}/environments/master/entries")
-        .to_return(status: 500, body: 'error', headers: {})
-      stub_request(:get, "https://cdn.contentful.com/spaces/#{ENV['SPACE_ID']}/environments/master/entries?sys.id=4dT8tcb6ukGSIg2YyuGEOm")
-        .to_return(status: 500, body: 'error', headers: {})
+          .to_return(status: 500, body: 'error', headers: {})
+        stub_request(:get, "https://cdn.contentful.com/spaces/#{ENV['SPACE_ID']}/environments/master/entries?sys.id=4dT8tcb6ukGSIg2YyuGEOm")
+          .to_return(status: 500, body: 'error', headers: {})
       end
 
       it 'inform users of issue' do
@@ -42,36 +42,38 @@ describe RecipesController do
 
   describe '#show' do
     it 'displays a single entry' do
-      get :show, params: {id: '4dT8tcb6ukGSIg2YyuGEOm'}
+      get :show, params: { id: '4dT8tcb6ukGSIg2YyuGEOm' }
       expect(response).to be_successful
+      recipe = controller.instance_variable_get('@recipe')
+      expect(recipe.content_type.id).to eq 'recipe'
     end
-    
+
     context 'contentful has an issue' do
       before do
         stub_request(:get, "https://cdn.contentful.com/spaces/#{ENV['SPACE_ID']}/environments/master/entries")
-        .to_return(status: 500, body: 'error', headers: {})
+          .to_return(status: 500, body: 'error', headers: {})
         stub_request(:get, "https://cdn.contentful.com/spaces/#{ENV['SPACE_ID']}/environments/master/entries?sys.id=4dT8tcb6ukGSIg2YyuGEOm")
-        .to_return(status: 500, body: 'error', headers: {})
+          .to_return(status: 500, body: 'error', headers: {})
       end
-      
+
       it 'inform users of issue' do
         get :index
         expect(response.status).to eq 200
         expect(controller.instance_variable_get('@errors')).to match 'issue'
       end
     end
-    
-    # test this better
-    xcontext 'when no id is provided' do
+
+    context 'when no id is provided' do
       it '404s' do
+        pending('test this better since routing doesn\'t work like this')
         get :show
         expect(response.status).to eq 404
       end
     end
-    
+
     context 'when an invalid id is provided' do
       it 'returns an error' do
-        get :show, params: {id: 'invalid'}
+        get :show, params: { id: 'invalid' }
         expect(response.status).to eq 200
         expect(controller.instance_variable_get('@errors')).to match 'Not Found'
       end
