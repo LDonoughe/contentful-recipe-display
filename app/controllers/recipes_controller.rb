@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 require 'contentful'
+require 'pry'
 
 class RecipesController < ApplicationController
   def index
-    client = Contentful::Client.new(
-    space: ENV['SPACE_ID'],  # This is the space ID. A space is like a project folder in Contentful terms
-    access_token: ENV['ACCESS_TOKEN']  # This is the access token for this space. Normally you get both ID and the token in the Contentful web app
-    )
-
-# This API call will request an entry with the specified ID from the space defined at the top, using a space-specific access token.
     # entry = client.entry('nyancat')
 
-    # require 'pry'
     # binding.pry
 
     @results = []
@@ -21,5 +15,22 @@ class RecipesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    # ap recipe_params
+    # binding.pry
+    @recipe = client.entry(recipe_params['id'])
+  end
+
+  def recipe_params
+    params.permit(:id)
+  end
+
+  private
+
+  def client
+    Contentful::Client.new(
+      space: ENV['SPACE_ID'], # This is the space ID. A space is like a project folder in Contentful terms
+      access_token: ENV['ACCESS_TOKEN'] # This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+    )
+  end
 end
