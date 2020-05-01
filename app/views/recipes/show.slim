@@ -1,9 +1,11 @@
 
-.h1 =@recipe.title
-/ Need Chef's info here
-/ .h2 ="by #{@recipe.}"
+h1 =@recipe.title
+-if @chef
+  h2 ="by #{@chef}" 
 img src=@recipe.photo.url
-div =@recipe.description # clearly `__text__` is supposed to have meaning
-div Tags
--@recipe.tags.each do |tag|
-  =tag.name
+/ clearly `__text__` is supposed to have meaning
+div =@recipe.description 
+- if @tags
+  h4 Tags
+  -@tags.each do |tag|
+    =tag.name

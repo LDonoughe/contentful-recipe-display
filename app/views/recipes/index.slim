@@ -1,6 +1,8 @@
 
 h1 Recipes
 -@results.each do |recipe|
+  div =recipe.fields
+
   a href="/recipes/#{recipe.id}"
     h2 =recipe.title
     img src=recipe.photo.url
