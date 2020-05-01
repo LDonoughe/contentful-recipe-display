@@ -51,8 +51,7 @@ group :development do
 end
 
 group :test do
-  # uncomment when we start using it
-  # gem 'webmock'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

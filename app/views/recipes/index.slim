@@ -1,8 +1,9 @@
 
-h1 Recipes
--@results.each do |recipe|
-  div =recipe.fields
-
-  a href="/recipes/#{recipe.id}"
-    h2 =recipe.title
-    img src=recipe.photo.url
+-if @errors
+  h1 =@errors
+-else
+  h1 Recipes
+  -@results.each do |recipe|
+    a href="/recipes/#{recipe.id}"
+      h2 =recipe.title
+      img src=recipe.photo.url

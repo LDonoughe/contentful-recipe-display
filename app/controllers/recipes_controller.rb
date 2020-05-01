@@ -3,31 +3,32 @@
 require 'contentful'
 require 'pry'
 
+# Recipe can be moved into a model, client helper can be a separate file
 class RecipesController < ApplicationController
   def index
-    # entry = client.entry('nyancat')
-
-    # binding.pry
-
-    @results = []
-    client.entries.each do |entry|
-      if entry.content_type.id == 'recipe'
-        # if entry.chef&.name
-
-        # end
-        @results += [entry]
+    begin
+      @results = []
+      client.entries.each do |entry|
+        if entry.content_type.id == 'recipe'
+          @results += [entry]
+        end
       end
+    rescue Contentful::ServerError
+      @errors = 'There is an issue with our service provider'
     end
   end
 
   def show
-    # ap recipe_params
-    # binding.pry
-    @recipe = client.entry(recipe_params['id'])
-    @chef = get_chef_name(@recipe)
-    @tags = get_tags(@recipe)
+    begin
+      @recipe = client.entry(recipe_params['id'])
+      # We shouldn't normally need the port but it would be nice if this linked properly
+      @errors = "Recipe Not Found. Please try again from the recipe list: #{request.protocol + request.host}"
+      @chef = get_chef_name(@recipe)
+      @tags = get_tags(@recipe)
+    rescue Contentful::ServerError
+      @errors = 'There is an issue with our service provider'
+    end
   end
-
   
   private
   
