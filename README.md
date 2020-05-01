@@ -28,7 +28,7 @@ Do this again for `SPACE_ID=` and `ENV_ID=`.
 In the future the .env steps should be refactored into an env template
 
 to run specs:
-`rails test`
+`bundle exec rspec`
 
 to use server:
 `rails server`
