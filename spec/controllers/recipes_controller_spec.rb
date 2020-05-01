@@ -17,7 +17,11 @@ describe RecipesController do
   describe '#index' do
     it 'displays entries' do
       get :index
-      expect(controller.instance_variable_get('@results').length).to eq 4
+      results = controller.instance_variable_get('@results')
+      expect(results.length).to eq 4
+      results.each do |recipe|
+        expect(recipe.content_type.id).to eq 'recipe'
+      end
     end
 
     context 'contentful has an issue' do

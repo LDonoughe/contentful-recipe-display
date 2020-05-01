@@ -7,12 +7,8 @@ require 'pry'
 class RecipesController < ApplicationController
   def index
     begin
-      @results = []
-      client.entries.each do |entry|
-        if entry.content_type.id == 'recipe'
-          @results += [entry]
-        end
-      end
+      # return only the recipes
+      @results = client.entries.reject { |entry| entry.content_type.id != 'recipe' }
     rescue Contentful::ServerError
       @errors = 'There is an issue with our service provider'
     end
