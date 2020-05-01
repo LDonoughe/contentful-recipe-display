@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'contentful'
-require 'pry'
 
 # Recipe can be moved into a model, client helper can be a separate file
 class RecipesController < ApplicationController
@@ -15,8 +14,9 @@ class RecipesController < ApplicationController
   def show
     @recipe = client.entry(recipe_params['id'])
     # We shouldn't normally need the port but it would be nice if this linked properly
-    @errors = "Recipe Not Found. Please try again from the recipe list: #{request.protocol + request.host}" unless @recipe
-    # binding.pry
+    unless @recipe
+      @errors = "Recipe Not Found. Please try again from the recipe list: #{request.protocol + request.host}"
+    end
     @chef = get_chef_name(@recipe)
     @tags = get_tags(@recipe)
   rescue Contentful::ServerError
@@ -27,8 +27,10 @@ class RecipesController < ApplicationController
 
   def client
     Contentful::Client.new(
-      space: ENV['SPACE_ID'], # This is the space ID. A space is like a project folder in Contentful terms
-      access_token: ENV['ACCESS_TOKEN'] # This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+      # This is the space ID. A space is like a project folder in Contentful terms
+      space: ENV['SPACE_ID'],
+      # This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+      access_token: ENV['ACCESS_TOKEN']
     )
   end
 

@@ -1,15 +1,15 @@
 
 -if @errors
-  h1 =@errors
+  h1.error =@errors
 -else
-  h1 =@recipe.title
+  h1.big-title.recipe-title =@recipe.title
   -if @chef
-    h2 ="by #{@chef}" 
-  img src=@recipe.photo.url
+    h2.chef ="by #{@chef}" 
+  img.recipe-image src=@recipe.photo.url
   / clearly `__text__` is supposed to have meaning
-  div =@recipe.description 
+  div.recipe-description =@recipe.description 
   - if @tags
-    h4 Tags
+    h4.tags-header Tags
     -@tags.each do |tag|
-      =tag.name
+      .tag =tag.name
       br

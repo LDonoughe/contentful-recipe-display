@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 require 'webmock'
-require 'pry'
 
 describe RecipesController do
   before do
@@ -60,14 +59,6 @@ describe RecipesController do
         get :index
         expect(response.status).to eq 200
         expect(controller.instance_variable_get('@errors')).to match 'issue'
-      end
-    end
-
-    context 'when no id is provided' do
-      it '404s' do
-        pending('test this better since routing doesn\'t work like this')
-        get :show
-        expect(response.status).to eq 404
       end
     end
 
